@@ -13,13 +13,10 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      {/* The 'basename' prop is essential for GitHub Pages subdirectories. 
-          It ensures all links and routes are relative to your repo name.
-      */}
-      <BrowserRouter basename="/christian-s-va-hub">
+      {/* Basename removed because Netlify hosts from the root domain */}
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
