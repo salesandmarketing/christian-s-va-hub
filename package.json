@@ -13,6 +13,7 @@
     "test:watch": "vitest"
     "deploy": "gh-pages -d dist"
     "homepage": "https://salesandmarketing.github.io/christian-s-va-hub",
+    npm run dev
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
