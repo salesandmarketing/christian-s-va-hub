@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 export default defineConfig(({ mode }) => ({
-  // Ensure this matches your repository name exactly
   base: "/", 
   plugins: [react()],
   resolve: {
