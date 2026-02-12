@@ -6,8 +6,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, Send } from "lucide-react";
+import { Mail, Phone, Send, ArrowRight } from "lucide-react";
 import { z } from "zod";
+import { motion } from "framer-motion";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -50,83 +51,111 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-secondary/30">
+    <section id="contact" className="py-24 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-subtle -z-10" />
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Let's Work Together</h2>
-        <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
-          Ready to streamline your sales and marketing? Get in touch!
-        </p>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <span className="text-accent font-semibold text-sm uppercase tracking-widest">Get In Touch</span>
+          <h2 className="text-3xl md:text-5xl font-bold font-heading mt-3">Let's Work Together</h2>
+          <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+            Ready to streamline your sales and marketing? Get in touch!
+          </p>
+        </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <Card className="border-border">
-            <CardContent className="pt-6">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <Label htmlFor="name">Name</Label>
-                  <Input
-                    id="name"
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="Your name"
-                  />
-                  {errors.name && <p className="text-sm text-destructive mt-1">{errors.name}</p>}
-                </div>
-                <div>
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    placeholder="you@example.com"
-                  />
-                  {errors.email && <p className="text-sm text-destructive mt-1">{errors.email}</p>}
-                </div>
-                <div>
-                  <Label htmlFor="message">Message</Label>
-                  <Textarea
-                    id="message"
-                    value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    placeholder="Tell me about your project..."
-                    rows={5}
-                  />
-                  {errors.message && <p className="text-sm text-destructive mt-1">{errors.message}</p>}
-                </div>
-                <Button type="submit" className="w-full" disabled={sending}>
-                  <Send className="mr-2 h-4 w-4" /> {sending ? "Sending..." : "Send Message"}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <Card className="glass shadow-card border-transparent">
+              <CardContent className="pt-6">
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <Label htmlFor="name" className="font-heading font-semibold">Name</Label>
+                    <Input
+                      id="name"
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      placeholder="Your name"
+                      className="mt-1.5 bg-background/50"
+                    />
+                    {errors.name && <p className="text-sm text-destructive mt-1">{errors.name}</p>}
+                  </div>
+                  <div>
+                    <Label htmlFor="email" className="font-heading font-semibold">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      placeholder="you@example.com"
+                      className="mt-1.5 bg-background/50"
+                    />
+                    {errors.email && <p className="text-sm text-destructive mt-1">{errors.email}</p>}
+                  </div>
+                  <div>
+                    <Label htmlFor="message" className="font-heading font-semibold">Message</Label>
+                    <Textarea
+                      id="message"
+                      value={form.message}
+                      onChange={(e) => setForm({ ...form, message: e.target.value })}
+                      placeholder="Tell me about your project..."
+                      rows={5}
+                      className="mt-1.5 bg-background/50"
+                    />
+                    {errors.message && <p className="text-sm text-destructive mt-1">{errors.message}</p>}
+                  </div>
+                  <Button type="submit" className="w-full bg-gradient-primary hover:opacity-90 shadow-glow" disabled={sending}>
+                    <Send className="mr-2 h-4 w-4" /> {sending ? "Sending..." : "Send Message"}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </motion.div>
 
-          <div className="flex flex-col justify-center space-y-6">
-            <div className="flex items-start gap-4">
-              <div className="p-3 bg-primary/10 rounded-lg">
-                <Mail className="h-5 w-5 text-primary" />
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex flex-col justify-center space-y-6"
+          >
+            <a href="mailto:christian.t.espinosa@gmail.com" className="group flex items-start gap-4 glass shadow-card rounded-2xl p-5 border-transparent hover:shadow-glow transition-all duration-300">
+              <div className="h-12 w-12 rounded-xl bg-gradient-primary flex items-center justify-center shrink-0">
+                <Mail className="h-5 w-5 text-primary-foreground" />
               </div>
-              <div>
-                <p className="font-semibold text-sm">Email</p>
-                <a href="mailto:christian.t.espinosa@gmail.com" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <div className="flex-1">
+                <p className="font-semibold text-sm font-heading">Email</p>
+                <p className="text-sm text-muted-foreground group-hover:text-primary transition-colors">
                   christian.t.espinosa@gmail.com
-                </a>
+                </p>
               </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="p-3 bg-primary/10 rounded-lg">
-                <Phone className="h-5 w-5 text-primary" />
+              <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all mt-1" />
+            </a>
+            <a href="tel:09289258127" className="group flex items-start gap-4 glass shadow-card rounded-2xl p-5 border-transparent hover:shadow-glow transition-all duration-300">
+              <div className="h-12 w-12 rounded-xl bg-gradient-primary flex items-center justify-center shrink-0">
+                <Phone className="h-5 w-5 text-primary-foreground" />
               </div>
-              <div>
-                <p className="font-semibold text-sm">Phone</p>
-                <a href="tel:09289258127" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <div className="flex-1">
+                <p className="font-semibold text-sm font-heading">Phone</p>
+                <p className="text-sm text-muted-foreground group-hover:text-primary transition-colors">
                   09289258127
-                </a>
+                </p>
               </div>
-            </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
+              <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all mt-1" />
+            </a>
+            <p className="text-sm text-muted-foreground leading-relaxed px-2">
               Based in the Philippines, I'm available for full-time or part-time remote work. Let's discuss how I can support your business growth!
             </p>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, BookOpen } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const resources = [
   {
@@ -35,32 +35,64 @@ const ResourcesSection = () => {
   const [expanded, setExpanded] = useState<string | null>(null);
 
   return (
-    <section id="resources" className="py-20">
+    <section id="resources" className="py-24">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Resources</h2>
-        <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
-          Key insights from the Sales & Marketing VA Guide 2026.
-        </p>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <span className="text-accent font-semibold text-sm uppercase tracking-widest">Knowledge Base</span>
+          <h2 className="text-3xl md:text-5xl font-bold font-heading mt-3">Resources</h2>
+          <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+            Key insights from the Sales & Marketing VA Guide 2026.
+          </p>
+        </motion.div>
         <div className="max-w-3xl mx-auto space-y-4">
-          {resources.map((r) => (
-            <Card key={r.title} className="border-border">
-              <CardHeader className="cursor-pointer" onClick={() => setExpanded(expanded === r.title ? null : r.title)}>
-                <div className="flex justify-between items-start gap-4">
-                  <div>
-                    <CardTitle className="text-base">{r.title}</CardTitle>
-                    <CardDescription className="mt-1">{r.excerpt}</CardDescription>
+          {resources.map((r, i) => (
+            <motion.div
+              key={r.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.08 }}
+            >
+              <Card className={`glass shadow-card transition-all duration-300 border-transparent cursor-pointer ${expanded === r.title ? "shadow-glow" : "hover:shadow-glow"}`}>
+                <CardHeader onClick={() => setExpanded(expanded === r.title ? null : r.title)}>
+                  <div className="flex justify-between items-start gap-4">
+                    <div className="flex gap-3 items-start">
+                      <div className="h-8 w-8 rounded-lg bg-gradient-primary flex items-center justify-center shrink-0 mt-0.5">
+                        <BookOpen className="h-4 w-4 text-primary-foreground" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-base font-heading">{r.title}</CardTitle>
+                        <CardDescription className="mt-1">{r.excerpt}</CardDescription>
+                      </div>
+                    </div>
+                    <div className="shrink-0 text-muted-foreground">
+                      {expanded === r.title ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+                    </div>
                   </div>
-                  <Button variant="ghost" size="icon" className="shrink-0">
-                    {expanded === r.title ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-                  </Button>
-                </div>
-              </CardHeader>
-              {expanded === r.title && (
-                <CardContent className="pt-0 animate-fade-in">
-                  <p className="text-sm text-foreground leading-relaxed">{r.full}</p>
-                </CardContent>
-              )}
-            </Card>
+                </CardHeader>
+                <AnimatePresence>
+                  {expanded === r.title && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <CardContent className="pt-0 pl-14">
+                        <p className="text-sm text-foreground leading-relaxed">{r.full}</p>
+                      </CardContent>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </div>

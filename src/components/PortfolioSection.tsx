@@ -1,5 +1,6 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
 
 const projects = [
   {
@@ -25,27 +26,45 @@ const projects = [
 ];
 
 const PortfolioSection = () => (
-  <section id="portfolio" className="py-20">
+  <section id="portfolio" className="py-24">
     <div className="container mx-auto px-4">
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Portfolio</h2>
-      <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
-        Hypothetical projects showcasing the skills and strategies I've learned.
-      </p>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="text-center mb-16"
+      >
+        <span className="text-accent font-semibold text-sm uppercase tracking-widest">My Work</span>
+        <h2 className="text-3xl md:text-5xl font-bold font-heading mt-3">Portfolio</h2>
+        <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+          Hypothetical projects showcasing the skills and strategies I've learned.
+        </p>
+      </motion.div>
       <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
-        {projects.map((p) => (
-          <Card key={p.title} className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="text-lg">{p.title}</CardTitle>
-              <CardDescription>{p.desc}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-1.5">
-                {p.tools.map((t) => (
-                  <Badge key={t} variant="outline" className="text-xs">{t}</Badge>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+        {projects.map((p, i) => (
+          <motion.div
+            key={p.title}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: i * 0.1 }}
+          >
+            <Card className="h-full group glass shadow-card hover:shadow-glow transition-all duration-300 hover:-translate-y-1 border-transparent overflow-hidden">
+              <div className="h-1.5 bg-gradient-primary" />
+              <CardHeader>
+                <CardTitle className="text-lg font-heading group-hover:text-primary transition-colors">{p.title}</CardTitle>
+                <CardDescription>{p.desc}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2">
+                  {p.tools.map((t) => (
+                    <Badge key={t} variant="outline" className="text-xs rounded-lg border-primary/20 text-muted-foreground">{t}</Badge>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         ))}
       </div>
     </div>
